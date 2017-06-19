@@ -7,7 +7,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: saaa_develpment
+  database: saaa_development
   pool: 5
   username: ubuntu
   password:
