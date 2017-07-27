@@ -4,9 +4,11 @@
 function GetURLParameter(sParam) {
   var sPageURL = window.location.search.substring(1);
   var sURLVariables = sPageURL.split('&');
-  for (var i = 0; i < sURLVariables.length; i++) {
+  for (var i = 0; i < sURLVariables.length; i++)
+  {
     var sParameterName = sURLVariables[i].split('=');
-    if (sParameterName[0] == sParam) {
+    if (sParameterName[0] == sParam)
+    {
       return sParameterName[1];
     }
   }
@@ -42,18 +44,19 @@ var show_error, stripeResponseHandler, submitHandler;
     
     if (plan_type === 'premium') { // === equity without type conversion
       $("[data-stripe]").prop('required', true); // strip data is required because we need to handle payment
-      $form.off('submit'); // remove the event handle attached to $form currently
-      $form.on('submit', submitHandler);
-      $("[date-stripe]").show();
+      $form.off("submit"); // remove the event handle attached to $form currently
+      $form.on("submit", submitHandler);
+      $("[data-stripe]").show();
     } else {
       $("[data-stripe]").hide();
       $form.off("submit");
       $("[data-stripe]").removeProp('required');
     }
-  }
+  };
   
 // set up plan change event listener #tenant_plan id in the forms for class cc_form
   $("#tenant_plan").on("change", function(event) {
+    // var $sSelected = $("#tenant_plan :selected").val();
     handlePlanChange($("#tenant_plan :selected").val(), ".cc_form");
   });
 
@@ -63,13 +66,15 @@ var show_error, stripeResponseHandler, submitHandler;
 // function to handle response token received from stripe and remove cc filed info
   stripeResponseHandler = function(status, response) {
     var token, $form;
-    
+    $form = $(".cc_form");
     if (response.error) {
       console.log(response.error.message);
       show_error(response.error.message);
       $form.find('input[type=submit]').prop('disabled', false);
     } else {
+      token = response.id;
       $form.append($("<input type='hidden' name='payment[token]' />").val(token));
+      //$form.append($("<input type=\"hidden\" name=\"payment[token]\" />").val(token));
       $("[data-strip=number]").remove();
       $("[data-stripe=cvv]").remove();
       $("[data-stripe=exp-year]").remove();
